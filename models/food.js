@@ -1,11 +1,11 @@
 const mongoose = require("mongoose")
 mongoose.connect("mongodb://localhost/wyny")
 
-const starterSchema = mongoose.Schema({
+const foodSchema = mongoose.Schema({
     fimg:String,
     foodname:String,
     descriptionoffood:String,
     price:String
 })
 
-module.exports = mongoose.model("starter" , starterSchema)
+module.exports = mongoose.model("food" , foodSchema)

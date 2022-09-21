@@ -1,7 +1,15 @@
-const cloudinary = require("cloudinary").v2
-const sharp = require("sharp");
-const starterModel = require("../models/starter")
+const foodModel = require("../models/food")
+const userModel = require("../models/users")
 
+exports.loginpage = (req,res,next)=>{
+    res.render("loginpage")
+
+}
+
+exports.createUser = (req,res,next)=>{
+    const newUser = 
+
+}
 
 
 exports.homepage = (req,res,next)=>{
@@ -16,50 +24,42 @@ exports.adminHomepage = (req,res,next)=>{
 }
 
 exports.menu = async(req,res,next)=>{
-    const starterItems = await starterModel.find()
-    console.log(starterItems +  "  showed starterItems");
-    res.render("menu" , {starterItems})
+    const foodItems = await foodModel.find()
+    console.log(foodItems +  "  showed foodItems");
+    res.render("menu" , {foodItems})
 
 }
 
 
-// exports.starterItems = async(req,res,next)=>{
-//     try{
-//         const starterItems = await starterModel.create({
-//             fimg:req.file.filename,
-//             foodname:req.body.foodname,
-//             descriptionoffood:req.body.descriptionoffood,
-//             price:req.body.price
-//         })
-//         console.log(starterItems + " added  starterItems");
-    
-//         res.redirect(req.headers.referer)
-//     }catch(err){
-//         res.send(404).json("err" + err)
-
-//     }
-
-// }
-
-exports.starterItems = async(req,res,next)=>{
+exports.foodItems = async(req,res,next)=>{
     try{
-        console.log(req.file.buffer);
-        const data = await sharp(req.file.buffer).webp({ quality: 20 }).toBuffer();
-        const stream = cloudinary.uploader.upload_stream(
-          { folder: "DEV" },
-          (error, result) => {
-            if (error) return console.error(error);
-            console.log(result);
-          }
-        );
-        bufferToStream(data).pipe(stream);
-        res.json("done")
-        
+        const foodItems = await foodModel.create({
+            fimg:req.file.path,
+            foodname:req.body.foodname,
+            descriptionoffood:req.body.descriptionoffood,
+            price:req.body.price
+        })
+        console.log(foodItems + " added  foodItems");
+    
+        res.redirect(req.headers.referer)
     }catch(err){
-        if(err) throw err
+        res.send(404).json("err" + err)
+
     }
 
 }
+
+
+exports.cart = async(req,res,next)=>{
+    try{
+       res.render("cart")
+    }catch(err){
+        res.send(404).json("err" + err)
+
+    }
+
+}
+
 
 
 //cloudinary code

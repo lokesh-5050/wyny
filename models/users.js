@@ -1,9 +1,19 @@
-var express = require('express');
-var router = express.Router();
+const mongoose = require("mongoose")
+mongoose.connect("mongodb://localhost/wyny")
+const plm = require('passport-local-mongoose')
+const findOrCreate = require('mongoose-findorcreate')
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const userSchema = mongoose.Schema({
+   name:{type:String , requried:true},
+   email:{type:String , requried:true},
+   phoneNo:{type:String , requried:true},
+   state:{type:String , requried:true},
+   city:{type:String , requried:true},
+   pincode:{type:String , requried:true},
+})
 
-module.exports = router;
+
+userSchema.plugin(plm , {usernameField:'email'})
+userSchema.plugin(findOrCreate)
+
+module.exports = mongoose.model("user" , userSchema)

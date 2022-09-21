@@ -1,54 +1,56 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const multer  = require('multer')
-const cloudinary = require("cloudinary").v2
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const sharp = require("sharp");
-const { Readable } = require("stream");
 
-const {   homepage ,
-     adminHomepage ,
-     menu , starterItems} = require("../controllers/indexcontroller.js")
 
-     //clouinary
-     const storage = new CloudinaryStorage({
-      cloudinary: cloudinary,
-      params: {
-        folder: "DEV",
-      },
-    });
+const {
+  homepage,
+  adminHomepage,
+  menu,
+  foodItems,
+  cart,
+  loginpage,
+  createUser
+} = require("../controllers/indexcontroller.js");
 
-  //cloudinary code
-  cloudinary.config({ 
-    cloud_name: 'dkhzlhxum', 
-    api_key: '748552462825973', 
-    api_secret: 'rTX3Ad4uthlqjFS6GayHhUwKv_Q' 
-  });
-  const upload = multer({ storage: storage })
+//clouinary
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "DEV",
+  },
+});
 
-  //to compress the uploaded file
-  const bufferToStream = (buffer) => {
-    const readable = new Readable({
-      read() {
-        this.push(buffer);
-        this.push(null);
-      },
-    });
-    return readable;
-  };
+//cloudinary code
+cloudinary.config({
+  cloud_name: "dkhzlhxum",
+  api_key: "748552462825973",
+  api_secret: "rTX3Ad4uthlqjFS6GayHhUwKv_Q",
+});
+const upload = multer({ storage: storage });
 
+
+/* @api  login page. */
+router.get("/", loginpage);
+
+/* @api  createUser page. */
+router.post("/create", createUser);
 
 /* @api  home page. */
-router.get('/', homepage);
+router.get("/login", homepage);
 
 /* @api admin homepage. */
-router.get('/admin', adminHomepage);
-
+router.get("/admin", adminHomepage);
 
 /* @api menu page. */
-router.get('/menu', menu);
+router.get("/menu", menu);
+
+/* @api cart page. */
+router.get("/cart", cart);
 
 /* @api starter-menu. */
-router.post('/starter-menu', upload.single("myFile") , starterItems  );
+router.post("/starter-menu", upload.single("myFile"), foodItems);
 
 module.exports = router;

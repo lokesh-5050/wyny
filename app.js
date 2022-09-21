@@ -5,6 +5,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require("cors")
+const passport = require("passport")
+const expressSession = require("express-session")
 
 
 var indexRouter = require('./routes/index');
@@ -16,6 +18,17 @@ app.use(cors({origin:process.env.DOMAIN }))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(expressSession({
+  saveUninitialized:false,
+  resave:false,
+  secret:process.env.SECRET
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
+passport.serializeUser(usersRouter.serializeUser())
+passport.deserializeUser(usersRouter.deserializeUser())
 
 app.use(logger('dev'));
 app.use(express.json());
