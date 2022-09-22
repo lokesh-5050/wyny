@@ -3,8 +3,10 @@ var router = express.Router();
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-
-
+const passport = require("passport");
+const localStrategy = require("passport-local")
+const userModel = require("../models/users")
+passport.use(new localStrategy({usernameField:'email'}, userModel.authenticate()))
 const {
   homepage,
   adminHomepage,
@@ -12,7 +14,9 @@ const {
   foodItems,
   cart,
   loginpage,
-  createUser
+  createUser,
+  pass_authen,
+  addToCart
 } = require("../controllers/indexcontroller.js");
 
 //clouinary
@@ -32,14 +36,18 @@ cloudinary.config({
 const upload = multer({ storage: storage });
 
 
+
 /* @api  login page. */
 router.get("/", loginpage);
 
 /* @api  createUser page. */
 router.post("/create", createUser);
 
+/* @api  login form req. */
+router.post("/login", pass_authen);
+
 /* @api  home page. */
-router.get("/login", homepage);
+router.get("/homepage", homepage);
 
 /* @api admin homepage. */
 router.get("/admin", adminHomepage);
@@ -47,10 +55,13 @@ router.get("/admin", adminHomepage);
 /* @api menu page. */
 router.get("/menu", menu);
 
+
 /* @api cart page. */
 router.get("/cart", cart);
 
 /* @api starter-menu. */
 router.post("/starter-menu", upload.single("myFile"), foodItems);
+
+router.get("/addToCart/:foodId" , addToCart)
 
 module.exports = router;

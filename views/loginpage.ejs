@@ -9,10 +9,10 @@
   <body>
     <div class="container">
         <h2>Create Account</h2>
-        <form>
+        <form method="post" action="/create">
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Enter Name</label>
-              <input type="text"  name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <input type="text"  name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
            
             <div class="mb-3">
@@ -44,7 +44,8 @@
     </div>
     <div class="container">
         <h2>Login</h2>
-        <div class="mb-3">
+        <form action="/login" method="post">
+          <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">email</label>
             <input type="text" name="email" class="form-control" id="exampleInputPassword1">
           </div>
@@ -53,6 +54,7 @@
             <input type="text" name="password" class="form-control" id="exampleInputPassword1">
           </div>
           <button type="submit" class="btn btn-primary">Login</button>
+        </form>
 
     </div>
     <a href="/auth/google">logIn with Google</a>

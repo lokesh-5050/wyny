@@ -42,9 +42,14 @@
     }
     .show-food-img{
         width: 11vmax;
-        
+        object-fit: contain;
         min-height: inherit;
         border: 2px solid salmon;
+    }
+    #fimg{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
     }
     .show-food-name{
         margin-left: 4vmax;
@@ -162,86 +167,52 @@
   </header><!-- End Header -->
     <div class="container check-out-items-wrap position-relative" style="z-index: 9999;top: 8vmax;">
         <h1>Foods In Your Bag</h1>
-        <div class="row-food">
-            <div class="show-food-img">
-                <img src="" alt="foodImg">
-            </div>
-            <div class="show-food-name">
-                <h4>Pizza</h4>
-                <div class="show-food-desc">
-                    <h5>jagfuyaefuyvfsyuvt</h5>
-                </div>
-                <div class="increase-decrease-items">
-                    <a href="">+</a> &nbsp; <a href="">-</a>
-                </div>
-            </div>
-            <div class="show-food-price">
-                <h5>$120</h5>
-            </div>
-            <div id="food-Quan">
-                <h5>Quan - 1</h5>
-            </div>
-            <div id="tot-price" class="show-food-price">
-                <h5>$totoo</h5>
-            </div>
-        </div>
-        <div class="row-food">
-            <div class="show-food-img">
-                <img src="" alt="foodImg">
-            </div>
-            <div class="show-food-name">
-                <h4>Pizza</h4>
-                <div class="show-food-desc">
-                    <h5>jagfuyaefuyvfsyuvt</h5>
-                </div>
-                <div class="increase-decrease-items">
-                    <a href="">+</a> &nbsp; <a href="">-</a>
-                </div>
-            </div>
-            <div class="show-food-price">
-                <h5>$120</h5>
-            </div>
-            <div id="food-Quan">
-                <h5>Quan - 1</h5>
-            </div>
-            <div id="tot-price" class="show-food-price">
-                <h5>$totoo</h5>
-            </div>
-        </div>
 
-        <div class="row-food">
-            <div class="show-food-img">
-                <img src="" alt="foodImg">
-            </div>
-            <div class="show-food-name">
-                <h4>Pizza</h4>
-                <div class="show-food-desc">
-                    <h5>jagfuyaefuyvfsyuvt</h5>
+
+         <% user.cart.forEach(item => {%>
+              
+            <div class="row-food">
+                <div class="show-food-img">
+                    <img id="fimg" src="<%= item.foods[0].fimg %> " alt="foodImg">
                 </div>
-                <div class="increase-decrease-items">
-                    <a href="">+</a> &nbsp; <a href="">-</a>
+                <div class="show-food-name">
+                    <h4><%= item.foods[0].foodname %> </h4>
+                    <div class="show-food-desc">
+                        <h5><%= item.foods[0].descriptionoffood %> </h5>
+                    </div>
+                    <div class="increase-decrease-items">
+                        <a href="">+</a> &nbsp; <a href="">-</a>
+                    </div>
+                </div>
+                <div class="show-food-price">
+                    <h5><%= item.foods[0].price %> </h5>
+                </div>
+                <div id="food-Quan">
+                    <h5>X <%= item.quantity %> </h5>
+                </div>
+                <div id="tot-price" class="show-food-price">
+                    <h5>$totoo</h5>
                 </div>
             </div>
-            <div class="show-food-price">
-                <h5>$120</h5>
-            </div>
-            <div id="food-Quan">
-                <h5>Quan - 1</h5>
-            </div>
-            <div id="tot-price" class="show-food-price">
-                <h5>$totoo</h5>
-            </div>
-        </div>
+            <%}); %>  
+
+
+
+       
+
+      
         
         
     </div>  
     <div id="check-out" class="container">
             <div class="container xtra-charges">
-                <h6>Tax - ${}</h6>
+                <h6>Gst - ${}</h6>
                 <h6>Tax - ${}</h6>
                 
             </div>
-            <h5>Total Amount</h5>
+            
+                     
+              <h5>Total Amount - <%= tot %>    </h5>
             <button type="button" class="btn-check btn btn-primary btn-lg">Large button</button>
     </div>
     </div>
