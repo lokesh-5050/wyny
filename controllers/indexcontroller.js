@@ -81,7 +81,7 @@ exports.cart = async (req, res, next) => {
     //for cartTotal Amount 
     var tot = 0
     for (let index = 0; index < user.cart.length; index++) {
-      tot += user.cart[index].foods[0].price
+      tot += user.cart[index].foods.price * user.cart[index].quan
 
     }
 
@@ -122,27 +122,48 @@ exports.cart = async (req, res, next) => {
 //   }
 // };
 
-
+//addToCart API function 
 exports.addToCart = async (req, res, next) => {
   try {
-    let loggedInUser = await userModel.findOne({ _id: req.user.id })
+    var loggedInUser = await userModel.findOne({ _id: req.user.id }).populate("cart")
     // res.json(loggedInUser.cart)
 
-    const addedToCart = await cartModel.create({
-      foods: req.params.foodId,
-    })
+   
+    
+    if(loggedInUser.foodId.includes(req.params.foodId)) {
+      console.log("yes it includes");
+      // console.log(loggedInUser.cart.quantity);
+      
 
+      res.redirect("/cart")
+    }else{
+      console.log("not includes");
+      const addedToCart = await cartModel.create({
+        foods: req.params.foodId,
+      })
+
+      loggedInUser.foodId.push(req.params.foodId)
     loggedInUser.cart.push(addedToCart._id)
     let seeUsersCart = await loggedInUser.save()
     console.log(seeUsersCart + ".....seeUsersCart");
-    res.redirect("/cart")
+    res.redirect("back")
+    }
+
   } catch (err) {
     console.error(err)
   }
 };
 
 
+exports.incItem = async(req,res,next) =>{
+  await cartModel.findByIdAndUpdate({_id:req.params.cartId} , {$inc:{quan:1}})
+  res.redirect("back")
+}
 
+exports.decItem = async(req,res,next) =>{
+  await cartModel.findByIdAndUpdate({_id:req.params.cartId} , {$inc:{quan:-1}})
+  res.redirect("back")
+}
 
 
 

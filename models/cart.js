@@ -1,17 +1,15 @@
 const mongoose = require("mongoose")
 
 const cartSchema = mongoose.Schema({
-    foods:[
+    foods:
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"food",
-        }
-    ],
+        },
+
     
-    quantity:{
-        type:Number,
-        default:"1"
-    }        
+    quan:{type:Number, default:"1"}
+           
     
 
 })

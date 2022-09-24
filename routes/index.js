@@ -16,7 +16,9 @@ const {
   loginpage,
   createUser,
   pass_authen,
-  addToCart
+  addToCart,
+  incItem,
+  decItem
 } = require("../controllers/indexcontroller.js");
 
 //clouinary
@@ -63,5 +65,13 @@ router.get("/cart", cart);
 router.post("/starter-menu", upload.single("myFile"), foodItems);
 
 router.get("/addToCart/:foodId" , addToCart)
+
+
+//incItem
+router.get("/incItem/:cartId" , incItem)
+
+//decItem
+router.get("/decItem/:cartId" , decItem)
+
 
 module.exports = router;

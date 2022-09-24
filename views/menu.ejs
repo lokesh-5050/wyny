@@ -16,15 +16,33 @@
     }
 
     .img-size {
-       
-       object-fit: contain;
-       object-position: centre;
+
+        object-fit: contain;
+        object-position: centre;
     }
-    .wrap-starter{
+
+    .wrap-starter {
         width: 23vmax;
         min-height: 19vmax;
         background-color: rgb(255, 255, 255);
         overflow: hidden;
+    }
+    a{
+        text-decoration: none;
+        color: #000;
+    }
+    .cart {
+        background-color: rgb(233, 56, 56);
+        width: 10vmax;
+        color: white;
+        display: flex;
+        justify-content: center;
+        height: 3vmax;
+        align-items: center;
+        border-radius: 2vmax;
+        text-decoration: none;
+        top: 2vmax;
+        right: 2vmax;
     }
 </style>
 
@@ -61,6 +79,7 @@
                         <h4>Dinner</h4>
                     </a>
                 </li><!-- End tab nav item -->
+                <a class="btn-book-a-table cart position-absolute" href="/cart">Check Cart 🛒</a>
 
             </ul>
 
@@ -84,7 +103,7 @@
                                 </a>
                                 <div class="wrap-starter mt-2">
                                     <a href="<%= food.fimg %> " class="glightbox"><img src="<%= food.fimg %> "
-                                        class="menu-img img-fluid img-size" alt=""></a>
+                                            class="menu-img img-fluid img-size" alt=""></a>
                                 </div>
                                 <h4>
                                     <%= food.foodname %>
@@ -96,7 +115,9 @@
                                     <%= food.price %>
                                 </p>
                                 <div class="position-relative container " style="left: 17vw;top: -2.7vmax;">
-                                    <a href="/addToCart/<%= food._id %> "><h6>Add to cart</h6></a>
+                                    <a href="/addToCart/<%= food._id %> ">
+                                        <h6>Add to cart</h6>
+                                    </a>
                                 </div>
                             </div>
                             <%}); %>

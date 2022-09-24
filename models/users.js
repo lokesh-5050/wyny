@@ -10,6 +10,12 @@ const userSchema = mongoose.Schema({
    state:{type:String , requried:true},
    city:{type:String , requried:true},
    pincode:{type:String , requried:true},
+   foodId:[
+      {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"food"
+      }
+   ],
    cart:[
       {
          type:mongoose.Schema.Types.ObjectId,

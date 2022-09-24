@@ -7,7 +7,7 @@ const foodSchema = mongoose.Schema({
     descriptionoffood: String,
     price: Number,
     gst: { type: Number, default: "24" },
-    delivery:{type:Number , default:"25"}
+    delivery:{type:Number , default:"25"},
 })
 
 module.exports = mongoose.model("food", foodSchema)

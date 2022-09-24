@@ -158,8 +158,7 @@
           </li>
         </ul>
       </nav><!-- .navbar -->
-
-      <a class="btn-book-a-table" href="#book-a-table">Book a Table</a>
+      <a href="/menu">Check Menu</a>
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
 
@@ -173,22 +172,22 @@
               
             <div class="row-food">
                 <div class="show-food-img">
-                    <img id="fimg" src="<%= item.foods[0].fimg %> " alt="foodImg">
+                    <img id="fimg" src="<%= item.foods.fimg %> " alt="foodImg">
                 </div>
                 <div class="show-food-name">
-                    <h4><%= item.foods[0].foodname %> </h4>
+                    <h4><%= item.foods.foodname %> </h4>
                     <div class="show-food-desc">
-                        <h5><%= item.foods[0].descriptionoffood %> </h5>
+                        <h5><%= item.foods.descriptionoffood %> </h5>
                     </div>
                     <div class="increase-decrease-items">
-                        <a href="">+</a> &nbsp; <a href="">-</a>
+                        <a href="/incItem/<%= item._id %>">+</a> &nbsp; <a href="/decItem/<%= item._id %>">-</a>
                     </div>
                 </div>
                 <div class="show-food-price">
-                    <h5><%= item.foods[0].price %> </h5>
+                    <h5><%= item.foods.price %> </h5>
                 </div>
                 <div id="food-Quan">
-                    <h5>X <%= item.quantity %> </h5>
+                    <h5>X <%= item.quan %> </h5>
                 </div>
                 <div id="tot-price" class="show-food-price">
                     <h5>$totoo</h5>
