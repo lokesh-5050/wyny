@@ -32,7 +32,6 @@
     /* .check-out-items-wrap::-webkit-scrollbar{
     } */
     .row-food{
-        margin-top: 3vmax;
         min-width: 20vmax;
         min-height: 10vmax;
         border: 2px solid #000;
@@ -168,9 +167,10 @@
         <h1>Foods In Your Bag</h1>
 
 
-         <% user.cart.forEach(item => {%>
-              
-            <div class="row-food">
+        <% user.cart.forEach(item => {%>
+          <% if (item.quan > 0) { %>
+           
+            <div style="position: relative;top: 3vmax;" class="row-food">
                 <div class="show-food-img">
                     <img id="fimg" src="<%= item.foods.fimg %> " alt="foodImg">
                 </div>
@@ -180,20 +180,21 @@
                         <h5><%= item.foods.descriptionoffood %> </h5>
                     </div>
                     <div class="increase-decrease-items">
-                        <a href="/incItem/<%= item._id %>">+</a> &nbsp; <a href="/decItem/<%= item._id %>">-</a>
+                        <a href="/incItem/<%= item._id %>">+</a> &nbsp; <a href="/decItem/<%= item._id %>/<%= item.foods._id %> ">-</a>
                     </div>
                 </div>
                 <div class="show-food-price">
-                    <h5><%= item.foods.price %> </h5>
+                    <h5>₹<%= item.foods.price %> </h5>
                 </div>
                 <div id="food-Quan">
-                    <h5>X <%= item.quan %> </h5>
+                    <h5>x <%= item.quan %> </h5>
                 </div>
                 <div id="tot-price" class="show-food-price">
-                    <h5>$totoo</h5>
+                    <h5>₹<%= item.foods.price * item.quan %>  </h5>
                 </div>
             </div>
-            <%}); %>  
+          <% } %>
+        <%}); %> 
 
 
 
@@ -211,7 +212,7 @@
             </div>
             
                      
-              <h5>Total Amount - <%= tot %>    </h5>
+              <h5>Total Amount - ₹<%= tot %></h5>
             <button type="button" class="btn-check btn btn-primary btn-lg">Large button</button>
     </div>
     </div>

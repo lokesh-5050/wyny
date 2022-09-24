@@ -13,6 +13,7 @@ const {
   menu,
   foodItems,
   cart,
+  checkIsInCart,
   loginpage,
   createUser,
   pass_authen,
@@ -61,6 +62,9 @@ router.get("/menu", menu);
 /* @api cart page. */
 router.get("/cart", cart);
 
+/* @api checkIsInCart . */
+router.get("/checkIsInCart/:foodId", checkIsInCart);
+
 /* @api starter-menu. */
 router.post("/starter-menu", upload.single("myFile"), foodItems);
 
@@ -71,7 +75,7 @@ router.get("/addToCart/:foodId" , addToCart)
 router.get("/incItem/:cartId" , incItem)
 
 //decItem
-router.get("/decItem/:cartId" , decItem)
+router.get("/decItem/:cartId/:foodId" , decItem)
 
 
 module.exports = router;

@@ -44,12 +44,7 @@ exports.adminHomepage = (req, res, next) => {
   res.render("adminHome");
 };
 
-exports.menu = async (req, res, next) => {
-  const foodItems = await foodModel.find();
-  console.log(foodItems + "  showed foodItems");
-  res.render("menu", { foodItems });
-};
-
+//uploading via admin panel
 exports.foodItems = async (req, res, next) => {
   try {
     const foodItems = await foodModel.create({
@@ -65,6 +60,21 @@ exports.foodItems = async (req, res, next) => {
     res.send(404).json("err" + err);
   }
 };
+
+//menu page
+exports.menu = async (req, res, next) => {
+  const foodItems = await foodModel.find();
+  console.log(foodItems + "  showed foodItems");
+  res.render("menu", { foodItems });
+};
+
+//checkIsInCart
+exports.checkIsInCart = async(req,res,next)=>{
+  let loggedInUser = await userModel.findById(req.user._id)
+  let foodIdInfo = await loggedInUser.foodId.includes(req.params.foodId)
+  res.json(foodIdInfo)
+}
+
 
 exports.cart = async (req, res, next) => {
   try {
@@ -85,8 +95,15 @@ exports.cart = async (req, res, next) => {
 
     }
 
+     //for item total along with quantity
+     var itemTot = "0"
+     for (let index = 0; index < user.cart.length; index++) {
+       itemTot = user.cart[index].foods.price * user.cart[index].quan
+       
+     }
+
     // res.json(user)
-    res.render("cart", { user , tot })
+    res.render("cart", { user , tot  , itemTot})
 
   } catch (err) {
     // res.sendStatus(404).json("err" + err);
@@ -94,33 +111,6 @@ exports.cart = async (req, res, next) => {
   }
 };
 
-// exports.addToCart = async (req, res, next) => {
-//   try {
-//     let loggedInUser = await userModel.findOne({_id:req.user.id})
-//       if(loggedInUser.cart.indexOf(req.params.foodId == -1)){
-
-//         const addedToCart = await cartModel.create({
-//           foods:req.params.foodId,
-//         })
-
-//         loggedInUser.cart.push(addedToCart._id)
-//         let seeUsersCart = await loggedInUser.save()
-//         console.log(seeUsersCart + ".....seeUsersCart");
-
-
-//         res.redirect("/cart")
-//       }else if(loggedInUser.cart.indexOf(req.params.foodId !== -1)){
-//         var quan
-//         loggedInUser.cart.quantity = quan++
-//         let quanInc = await loggedInUser.save()
-//         console.log(quan + " .../././ quanInc 105");
-//         res.redirect("/cart")
-
-//       }
-//     }catch (err) {
-//     console.error(err)
-//   }
-// };
 
 //addToCart API function 
 exports.addToCart = async (req, res, next) => {
@@ -161,8 +151,13 @@ exports.incItem = async(req,res,next) =>{
 }
 
 exports.decItem = async(req,res,next) =>{
+  let loggedInUser = await userModel.findOne({_id:req.user._id})
+  let indexOfFoodId = await loggedInUser.foodId.indexOf(req.params.foodId)
+  await loggedInUser.foodId.splice(req.params.foodId , indexOfFoodId)
+  loggedInUser.save()
   await cartModel.findByIdAndUpdate({_id:req.params.cartId} , {$inc:{quan:-1}})
   res.redirect("back")
+
 }
 
 
