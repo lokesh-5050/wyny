@@ -116,8 +116,8 @@
                                 </p>
                                 <div class="position-relative container " style="left: 17vw;top: -2.7vmax;">
                                     
-                                    <a onload=`checkIsInCart(foodItems._id)`  href="/addToCart/<%= food._id %> ">
-                                        <h6 id="checkIsInCart">Add to cart</h6>
+                                    <a href="/addToCart/<%= food._id %> ">
+                                        <h6>Add to cart</h6>
                                     </a>
                                 </div>
                             </div>
@@ -434,13 +434,7 @@
         //      })
         //  }
 
-            import foodModel from foodModel
-            import userModel from userModel
-            async function checkCart(foodItems){
-                // var loggedInUser = await userModel.findById(req.user._id)
-                // var foodId = await loggedInUser.foodId.includes(foodId)
-                
-            }
+            
 
     </script>
 </body>

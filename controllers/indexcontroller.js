@@ -69,7 +69,7 @@ exports.menu = async (req, res, next) => {
 };
 
 //checkIsInCart
-exports.checkIsInCart = async(req,res,next)=>{
+exports.checkIsInCart = async (req, res, next) => {
   let loggedInUser = await userModel.findById(req.user._id)
   let foodIdInfo = await loggedInUser.foodId.includes(req.params.foodId)
   res.json(foodIdInfo)
@@ -85,7 +85,6 @@ exports.cart = async (req, res, next) => {
       }
     })
 
-    
 
 
     //for cartTotal Amount 
@@ -95,15 +94,15 @@ exports.cart = async (req, res, next) => {
 
     }
 
-     //for item total along with quantity
-     var itemTot = "0"
-     for (let index = 0; index < user.cart.length; index++) {
-       itemTot = user.cart[index].foods.price * user.cart[index].quan
-       
-     }
+    //for item total along with quantity
+    var itemTot = "0"
+    for (let index = 0; index < user.cart.length; index++) {
+      itemTot = user.cart[index].foods.price * user.cart[index].quan
+
+    }
 
     // res.json(user)
-    res.render("cart", { user , tot  , itemTot})
+    res.render("cart", { user, tot, itemTot })
 
   } catch (err) {
     // res.sendStatus(404).json("err" + err);
@@ -117,26 +116,21 @@ exports.addToCart = async (req, res, next) => {
   try {
     var loggedInUser = await userModel.findOne({ _id: req.user.id }).populate("cart")
     // res.json(loggedInUser.cart)
-
-   
-    
-    if(loggedInUser.foodId.includes(req.params.foodId)) {
+    if (loggedInUser.foodId.includes(req.params.foodId)) {
       console.log("yes it includes");
       // console.log(loggedInUser.cart.quantity);
-      
-
       res.redirect("/cart")
-    }else{
+    } else {
       console.log("not includes");
       const addedToCart = await cartModel.create({
         foods: req.params.foodId,
       })
 
       loggedInUser.foodId.push(req.params.foodId)
-    loggedInUser.cart.push(addedToCart._id)
-    let seeUsersCart = await loggedInUser.save()
-    console.log(seeUsersCart + ".....seeUsersCart");
-    res.redirect("back")
+      loggedInUser.cart.push(addedToCart._id)
+      let seeUsersCart = await loggedInUser.save()
+      console.log(seeUsersCart + ".....seeUsersCart");
+      res.redirect("back")
     }
 
   } catch (err) {
@@ -145,20 +139,70 @@ exports.addToCart = async (req, res, next) => {
 };
 
 
-exports.incItem = async(req,res,next) =>{
-  await cartModel.findByIdAndUpdate({_id:req.params.cartId} , {$inc:{quan:1}})
+exports.incItem = async (req, res, next) => {
+  await cartModel.findByIdAndUpdate({ _id: req.params.cartId }, { $inc: { quan: 1 } })
   res.redirect("back")
 }
 
-exports.decItem = async(req,res,next) =>{
-  let loggedInUser = await userModel.findOne({_id:req.user._id})
-  let indexOfFoodId = await loggedInUser.foodId.indexOf(req.params.foodId)
-  await loggedInUser.foodId.splice(req.params.foodId , indexOfFoodId)
-  loggedInUser.save()
-  await cartModel.findByIdAndUpdate({_id:req.params.cartId} , {$inc:{quan:-1}})
-  res.redirect("back")
+exports.decItem = async (req, res, next) => {
+  let loggedInUser = await userModel.findOne({ _id: req.user._id })
+  let thisCart = await cartModel.findById(req.params.cartId)
+
+  if(thisCart.quan === 1){
+
+    let indexOfcartId = await loggedInUser.cart.indexOf(req.params.cartId)
+    let indexOfFoodId = await loggedInUser.foodId.indexOf(req.params.foodId)
+    loggedInUser.cart.splice( indexOfcartId , 1)
+    loggedInUser.foodId.splice( indexOfFoodId , 1)
+    const removedIds = await loggedInUser.save()
+    console.log(removedIds + "THE IDS ARE REMOVED SUCCESSFULLY");
+    res.redirect(req.headers.referer)
+    console.log("in hrerrerererereer");
+    
+  }else{
+    await cartModel.findByIdAndUpdate({ _id: req.params.cartId }, { $inc: { quan: -1 } })
+    res.redirect("/cart")
+
+  }
+
+   
+  
+
+
+
+  // let indexOfFoodId = await loggedInUser.foodId.indexOf(req.params.foodId)
+  // let indexOfcartId = await loggedInUser.cart.indexOf(req.params.cartId)
+  // console.log(indexOfFoodId + ".././. indecOfFoodId");
+  // const foodIdDeleted = await loggedInUser.foodId.splice(req.params.foodId, indexOfFoodId)
+  // // console.log(foodIdDeleted + ".././. indecOfFoodId");
+
+  // const cartIdDeleted = await loggedInUser.cart.splice(req.params.cartId, indexOfcartId)
+  // // console.log(foodIdDeleted + "\\\\foodIdDeleted");
+  // // console.log(cartIdDeleted + "\\\\foodIdDeleted");
+  // const foodIdRemoved = await loggedInUser.save()
+  // console.log(foodIdRemoved + " THE FOOD&CART ID IS SUCCESSFULLY REMOVED ");
+  // await cartModel.findByIdAndUpdate({ _id: req.params.cartId }, { $inc: { quan: -1 } })
+  // res.redirect("back")
+  // await cartModel.findByIdAndUpdate({ _id: req.params.cartId }, { $inc: { quan: -1 } })
+  // res.redirect("/cart")
+
+
+  
+  
+  
+
+
+
+
+
+
+
+
 
 }
+
+
+
 
 
 
