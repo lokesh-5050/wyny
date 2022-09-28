@@ -65,14 +65,31 @@ exports.foodItems = async (req, res, next) => {
 exports.menu = async (req, res, next) => {
   const foodItems = await foodModel.find();
   console.log(foodItems + "  showed foodItems");
+  // var allIds = ""
+  // for (let index = 0; index < foodItems.length; index++) {
+  //    allIds += foodItems[index]._id
+  // }
+  // console.log(allIds );
+  // const splittedIds = allIds.match(/.{1,24}/g)
+  // console.log(splittedIds);
+  
+
+  
   res.render("menu", { foodItems });
+ 
 };
 
 //checkIsInCart
 exports.checkIsInCart = async (req, res, next) => {
   let loggedInUser = await userModel.findById(req.user._id)
-  let foodIdInfo = await loggedInUser.foodId.includes(req.params.foodId)
-  res.json(foodIdInfo)
+  let foodIdInfo1Data = await loggedInUser.foodId.includes(req.params.foodId1)
+  let foodIdInfo2Data = await loggedInUser.foodId.includes(req.params.foodId2)
+  let foodIdInfo3Data = await loggedInUser.foodId.includes(req.params.foodId3)
+  let foodIdInfo4Data = await loggedInUser.foodId.includes(req.params.foodId4)
+  let foodIdInfo5Data = await loggedInUser.foodId.includes(req.params.foodId5)
+  let foodIdInfo6Data = await loggedInUser.foodId.includes(req.params.foodId6)
+  let foodIdInfo7Data = await loggedInUser.foodId.includes(req.params.foodId7)
+  res.json(foodIdInfo1Data ,foodIdInfo2Data ,foodIdInfo3Data ,foodIdInfo4Data ,foodIdInfo5Data ,foodIdInfo6Data ,foodIdInfo7Data )
 }
 
 
@@ -120,6 +137,7 @@ exports.addToCart = async (req, res, next) => {
       console.log("yes it includes");
       // console.log(loggedInUser.cart.quantity);
       res.redirect("/cart")
+      res.json("already added")
     } else {
       console.log("not includes");
       const addedToCart = await cartModel.create({
@@ -131,6 +149,7 @@ exports.addToCart = async (req, res, next) => {
       let seeUsersCart = await loggedInUser.save()
       console.log(seeUsersCart + ".....seeUsersCart");
       res.redirect("back")
+      res.json("added")
     }
 
   } catch (err) {
@@ -148,25 +167,25 @@ exports.decItem = async (req, res, next) => {
   let loggedInUser = await userModel.findOne({ _id: req.user._id })
   let thisCart = await cartModel.findById(req.params.cartId)
 
-  if(thisCart.quan === 1){
+  if (thisCart.quan === 1) {
 
     let indexOfcartId = await loggedInUser.cart.indexOf(req.params.cartId)
     let indexOfFoodId = await loggedInUser.foodId.indexOf(req.params.foodId)
-    loggedInUser.cart.splice( indexOfcartId , 1)
-    loggedInUser.foodId.splice( indexOfFoodId , 1)
+    loggedInUser.cart.splice(indexOfcartId, 1)
+    loggedInUser.foodId.splice(indexOfFoodId, 1)
     const removedIds = await loggedInUser.save()
     console.log(removedIds + "THE IDS ARE REMOVED SUCCESSFULLY");
     res.redirect(req.headers.referer)
     console.log("in hrerrerererereer");
-    
-  }else{
+
+  } else {
     await cartModel.findByIdAndUpdate({ _id: req.params.cartId }, { $inc: { quan: -1 } })
     res.redirect("/cart")
 
   }
 
-   
-  
+
+
 
 
 
@@ -187,9 +206,9 @@ exports.decItem = async (req, res, next) => {
   // res.redirect("/cart")
 
 
-  
-  
-  
+
+
+
 
 
 

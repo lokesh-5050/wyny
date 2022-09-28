@@ -63,7 +63,7 @@ router.get("/menu", menu);
 router.get("/cart", cart);
 
 /* @api checkIsInCart . */
-router.get("/checkIsInCart/:foodId", checkIsInCart);
+router.get("/checkIsInCart/:foodId1/:foodId2/:foodId3/:foodId4/:foodId5/:foodId6/:foodId7", checkIsInCart);
 
 /* @api starter-menu. */
 router.post("/starter-menu", upload.single("myFile"), foodItems);
@@ -76,6 +76,7 @@ router.get("/incItem/:cartId" , incItem)
 
 //decItem
 router.get("/decItem/:cartId/:foodId" , decItem)
+
 
 
 module.exports = router;
