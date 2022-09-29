@@ -82,14 +82,24 @@ exports.menu = async (req, res, next) => {
 //checkIsInCart
 exports.checkIsInCart = async (req, res, next) => {
   let loggedInUser = await userModel.findById(req.user._id)
-  let foodIdInfo1Data = await loggedInUser.foodId.includes(req.params.foodId1)
-  let foodIdInfo2Data = await loggedInUser.foodId.includes(req.params.foodId2)
-  let foodIdInfo3Data = await loggedInUser.foodId.includes(req.params.foodId3)
-  let foodIdInfo4Data = await loggedInUser.foodId.includes(req.params.foodId4)
-  let foodIdInfo5Data = await loggedInUser.foodId.includes(req.params.foodId5)
-  let foodIdInfo6Data = await loggedInUser.foodId.includes(req.params.foodId6)
-  let foodIdInfo7Data = await loggedInUser.foodId.includes(req.params.foodId7)
-  res.json(foodIdInfo1Data ,foodIdInfo2Data ,foodIdInfo3Data ,foodIdInfo4Data ,foodIdInfo5Data ,foodIdInfo6Data ,foodIdInfo7Data )
+  console.log(loggedInUser + "[][loggedInUser");
+  console.log(req.params.foodId1);
+
+  // let foodIdInfo1Data = await loggedInUser.foodId.includes(req.params.foodId1)
+  // let foodIdInfo2Data = await loggedInUser.foodId.includes(req.params.foodId2)
+  // let foodIdInfo3Data = await loggedInUser.foodId.includes(req.params.foodId3)
+  // let foodIdInfo4Data = await loggedInUser.foodId.includes(req.params.foodId4)
+  // let foodIdInfo5Data = await loggedInUser.foodId.includes(req.params.foodId5)
+  // let foodIdInfo6Data = await loggedInUser.foodId.includes(req.params.foodId6)
+  // let foodIdInfo7Data = await loggedInUser.foodId.includes(req.params.foodId7)
+
+
+  if(loggedInUser.foodId.includes(req.params.foodId1) || loggedInUser.foodId.includes(req.params.foodId2) ||loggedInUser.foodId.includes(req.params.foodId3) ||loggedInUser.foodId.includes(req.params.foodId4) || loggedInUser.foodId.includes(req.params.foodId5) ||loggedInUser.foodId.includes(req.params.foodId6) ||loggedInUser.foodId.includes(req.params.foodId7)){
+    res.json("includes")
+  }else{
+    res.json("notincludes") 
+  }
+
 }
 
 
@@ -184,11 +194,6 @@ exports.decItem = async (req, res, next) => {
 
   }
 
-
-
-
-
-
   // let indexOfFoodId = await loggedInUser.foodId.indexOf(req.params.foodId)
   // let indexOfcartId = await loggedInUser.cart.indexOf(req.params.cartId)
   // console.log(indexOfFoodId + ".././. indecOfFoodId");
@@ -204,20 +209,6 @@ exports.decItem = async (req, res, next) => {
   // res.redirect("back")
   // await cartModel.findByIdAndUpdate({ _id: req.params.cartId }, { $inc: { quan: -1 } })
   // res.redirect("/cart")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
@@ -227,4 +218,3 @@ exports.decItem = async (req, res, next) => {
 
 
 
-//cloudinary code
