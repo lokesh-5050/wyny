@@ -95,12 +95,8 @@
                     </div>
 
                     <!-- All Ids Of food for axios search whether it is added To cart or not -->
-                    <% foodItems.forEach(element=> {%>
-                        <small>
-                            <%= element._id %>
-                        </small>
-                        <%}); %>
-
+                    
+                        
                             <div id="allFoodWrap" class="row gy-5">
                                 <% foodItems.forEach(food=> {%>
                                     <div class="col-lg-4 menu-item item-wrap ">
@@ -459,59 +455,58 @@
             // console.log(e.path[3].children[0].children[0].innerHTML);
             // console.log(e.target.parentElement.parentElement.children[0].innerText);
             // console.log(e.target.parentElement.parentElement.parentElement.children[0].innerText + "././././.hiiii"); //foodid working
-            const foodAdded = await axios.get(`/addToCart/${e.target.parentElement.parentElement.parentElement.children[0].innerText}`)
-
+            const foodAdded = await axios.get(`/addToCart/${e.target.parentElement.parentElement.parentElement.children[0].innerText}`);
         })
 
         //added to cart even on refresh
-        window.onload = async (e) => {
-            console.log("window successfully loaded");
-            console.log(e);
-            console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[1].innerText);
-            console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[2].innerText);
-            console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[3].innerText);
-            console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[4].innerText);
-            console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[5].innerText);
-            console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[6].innerText);
-            console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[7].innerText);
-            // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[1].innerHTML);
+        // window.onload = async (e) => {
+        //     console.log("window successfully loaded");
+        //     console.log(e);
+        //     console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[1].innerText);
+        //     console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[2].innerText);
+        //     console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[3].innerText);
+        //     console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[4].innerText);
+        //     console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[5].innerText);
+        //     console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[6].innerText);
+        //     console.log(e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[7].innerText);
+        //     // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[1].innerHTML);
             
-            const response = await axios.get(`/checkIsInCart/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[1].innerText}/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[2].innerText}/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[3].innerText}/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[4].innerText}/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[5].innerText}/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[6].innerText}/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[7].innerText}/`)
+        //     const response = await axios.get(`/checkIsInCart/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[1].innerText}/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[2].innerText}/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[3].innerText}/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[4].innerText}/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[5].innerText}/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[6].innerText}/${e.target.children[0].children[1].children[0].children[0].children[2].children[0].children[7].innerText}/`)
             
-            console.log(response);
+        //     console.log(response);
             
-            var addTo = document.getElementById("addTo")
-            // ${e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[6].innerHTML}/${e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[0].children[6].children[0].innerText}
-            // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children); //all add to cart text
-            // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children); //all add to cart text
-            // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[0].children[6].children[0].innerText + "     . ././.heh");
-            // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[1].children[6].children[0].innerText + "     . ././.heh");
-            // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[2].children[6].children[0].innerText + "     . ././.heh");
-            // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[3].children[6].children[0].innerText + "     . ././.heh");
-            // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[4].children[6].children[0].innerText + "     . ././.heh");
-            // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[5].children[6].children[0].innerText + "     . ././.heh");
-            // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[6].children[6].children[0].innerText + "     . ././.heh");
+        //     var addTo = document.getElementById("addTo")
+        //     // ${e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[6].innerHTML}/${e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[0].children[6].children[0].innerText}
+        //     // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children); //all add to cart text
+        //     // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children); //all add to cart text
+        //     // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[0].children[6].children[0].innerText + "     . ././.heh");
+        //     // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[1].children[6].children[0].innerText + "     . ././.heh");
+        //     // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[2].children[6].children[0].innerText + "     . ././.heh");
+        //     // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[3].children[6].children[0].innerText + "     . ././.heh");
+        //     // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[4].children[6].children[0].innerText + "     . ././.heh");
+        //     // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[5].children[6].children[0].innerText + "     . ././.heh");
+        //     // console.log(e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[6].children[6].children[0].innerText + "     . ././.heh");
 
 
-            // ${e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[6].innerHTML}/${e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children}
-            // if (response.data === false) {
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[0].children[6].children[0].innerText = "Add to cart"
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[1].children[6].children[0].innerText = "Add to cart"
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[2].children[6].children[0].innerText = "Add to cart"
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[3].children[6].children[0].innerText = "Add to cart"
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[4].children[6].children[0].innerText = "Add to cart"
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[5].children[6].children[0].innerText = "Add to cart"
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[6].children[6].children[0].innerText = "Add to cart"
-            // } else if (response.data !==false) {
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[0].children[6].children[0].innerText = "Added to the cart"
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[1].children[6].children[0].innerText = "Added to the cart"
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[2].children[6].children[0].innerText = "Added to the cart"
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[3].children[6].children[0].innerText = "Added to the cart"
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[4].children[6].children[0].innerText = "Added to the cart"
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[5].children[6].children[0].innerText = "Added to the cart"
-            //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[6].children[6].children[0].innerText = "Added to the cart"
-            // }
-        }
+        //     // ${e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[6].innerHTML}/${e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children}
+        //     // if (response.data === false) {
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[0].children[6].children[0].innerText = "Add to cart"
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[1].children[6].children[0].innerText = "Add to cart"
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[2].children[6].children[0].innerText = "Add to cart"
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[3].children[6].children[0].innerText = "Add to cart"
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[4].children[6].children[0].innerText = "Add to cart"
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[5].children[6].children[0].innerText = "Add to cart"
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[6].children[6].children[0].innerText = "Add to cart"
+        //     // } else if (response.data !==false) {
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[0].children[6].children[0].innerText = "Added to the cart"
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[1].children[6].children[0].innerText = "Added to the cart"
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[2].children[6].children[0].innerText = "Added to the cart"
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[3].children[6].children[0].innerText = "Added to the cart"
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[4].children[6].children[0].innerText = "Added to the cart"
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[5].children[6].children[0].innerText = "Added to the cart"
+        //     //     e.srcElement.children[0].children[1].children[0].children[0].children[2].children[0].children[8].children[6].children[6].children[0].innerText = "Added to the cart"
+        //     // }
+        // }
 
     </script>
 </body>

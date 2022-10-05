@@ -2,7 +2,7 @@ const passport = require("passport");
 const foodModel = require("../models/food");
 const userModel = require("../models/users");
 const cartModel = require("../models/cart");
-
+const orderModel = require("../models/order")
 exports.loginpage = (req, res, next) => {
   res.render("loginpage");
 };
@@ -143,8 +143,8 @@ exports.addToCart = async (req, res, next) => {
   try {
     var loggedInUser = await userModel.findOne({ _id: req.user.id }).populate("cart")
     // res.json(loggedInUser.cart)
+    console.log("yes it includes");
     if (loggedInUser.foodId.includes(req.params.foodId)) {
-      console.log("yes it includes");
       // console.log(loggedInUser.cart.quantity);
       res.redirect("/cart")
       res.json("already added")
@@ -209,6 +209,26 @@ exports.decItem = async (req, res, next) => {
   // res.redirect("back")
   // await cartModel.findByIdAndUpdate({ _id: req.params.cartId }, { $inc: { quan: -1 } })
   // res.redirect("/cart")
+}
+
+exports.orderPage = async(req,res,next) =>{
+  let allCartItems = await userModel.findOne({_id:req.user._id}).populate("cart")
+  var cart = allCartItems.cart
+  res.render("addressPage" , {cart})
+}
+
+exports.order = async(req,res,next)=>{
+  if(req.body.paymentMode === "COD"){
+    let loggedInUser = await userModel.findOne({_id:req.user._id})
+    const {firstname,lastname,address1,address2,email,phoneNo,paymentMode} = req.body
+    const newOrder = await orderModel.create(req.body)
+    console.log(newOrder);
+    loggedInUser.order.push(newOrder._id)
+    var orderIdPushed = await loggedInUser.save()
+    res.render("orderplaced")
+  }else if(req.body.paymentMode === "ONLINE"){
+    res.send("online payment razor pay")
+  }
 }
 
 

@@ -21,6 +21,12 @@ const userSchema = mongoose.Schema({
          type:mongoose.Schema.Types.ObjectId,
          ref:"cart"
       }
+   ],
+   order:[
+      {
+         type:mongoose.Schema.Types.ObjectId,
+         ref:"order"
+      }
    ]
 })
 

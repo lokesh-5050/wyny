@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <label>Address Details</label>
+    
+
+    <form action="/order" method="post">
+      <input type="text" placeholder="First name" name="firstname"> <br>
+      <input type="text" placeholder="Last name" name="lastname"> <br>
+      <input type="text" placeholder="Address 1" name="address1"> <br>
+      <input type="text" placeholder="Address 2" name="address2"> <br>
+      <input type="text" placeholder="Email" name="email" /> <br>
+      <input type="text" placeholder="Phone No" name="phoneNo"> <br>
+      <label>Payment Mode</label> <br>
+      <div id="modes">
+        <input type="radio" id="COD" value="COD" name="paymentMode">
+        <label for="COD">Cash On Delivery</label> <br>
+
+        <input type="radio" id="ONLINE" value="ONLINE" name="paymentMode">
+        <label for="ONLINE">Online (RAZORPAY)</label> <br>
+      </div>
+      <input type="submit">
+    </form>
+
+    <script>
+      var allInps = document.querySelectorAll(`input[name="mode"]`)
+      let selectedValue;
+      
+                // for (const key in object) {
+                //     if (Object.hasOwnProperty.call(object, key)) {
+                //         const element = object[key];
+
+                //     }
+                // }
+    </script>
+  </body>
+</html>

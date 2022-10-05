@@ -19,7 +19,9 @@ const {
   pass_authen,
   addToCart,
   incItem,
-  decItem
+  decItem,
+  orderPage,
+  order
 } = require("../controllers/indexcontroller.js");
 
 //clouinary
@@ -76,6 +78,14 @@ router.get("/incItem/:cartId" , incItem)
 
 //decItem
 router.get("/decItem/:cartId/:foodId" , decItem)
+
+
+//address Fill page!!
+router.get("/orderPage" , orderPage)
+
+//address Fill page!!
+router.post("/order" , order)
+
 
 
 
