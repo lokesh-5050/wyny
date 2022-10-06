@@ -12,3 +12,5 @@ const whistListSchema = mongoose.Schema({
 },{timestamps:true})
 
 module.exports = mongoose.model("starter" , whistListSchema)
+
+//soon will bulilt whishlist

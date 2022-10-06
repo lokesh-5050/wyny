@@ -33,6 +33,7 @@ const userSchema = mongoose.Schema({
       enum:['user' , 'admin'],
       default:"user"
    }
+   //this is for role of admin
 })
 
 
