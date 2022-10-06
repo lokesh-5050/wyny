@@ -8,10 +8,11 @@ const orderSchema = mongoose.Schema({
     email:{type:String , require:true},
     phoneNo:{type:Number , require:true},
     paymentMode:{type:String},
-    user:{
+    user:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"user"
-    }
+    }],
+    status:{type:String},
 })
 
 module.exports = mongoose.model("order", orderSchema)

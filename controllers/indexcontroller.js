@@ -34,9 +34,10 @@ exports.pass_authen = passport.authenticate("local", {
 
 
 
-exports.homepage = (req, res, next) => {
+exports.homepage =async(req, res, next) => {
   const user = req.user.username
   console.log(user);
+  
   res.render("index");
 };
 
@@ -219,18 +220,7 @@ exports.orderPage = async(req,res,next) =>{
 
 exports.order = async(req,res,next)=>{
   if(req.body.paymentMode === "COD"){
-    let loggedInUser = await userModel.findOne({_id:req.user._id}).populate({
-      path:"order",
-      populate:{
-        path:"user",
-        populate:{
-          path:"cart",
-          populate:{
-            path:"foods"
-          }
-        }
-      }
-    })
+    let loggedInUser = await userModel.findOne({_id:req.user._id})
 
     const newOrder = await orderModel.create({
       firstname:req.body.firstname,
@@ -240,14 +230,38 @@ exports.order = async(req,res,next)=>{
       email:req.body.email,
       phoneNo:req.body.phoneNo,
       paymentMode:req.body.paymentMode,
-      user:loggedInUser._id
+      user:loggedInUser._id,
+      status:"Processing"
     })
 
-     await loggedInUser.order.push(newOrder._id)
+    await loggedInUser.order.push(newOrder._id)
     var pushedSucc = await loggedInUser.save()
-    console.log(pushedSucc + "./././order pushed to user")
-    // res.render("orderplaced")
-    res.json(loggedInUser)
+    var showOrder = await pushedSucc.populate({
+      path:"order",
+      populate:{
+        path:"user",
+        populate:{
+          path:"cart",
+          populate:{
+            path:"foods"
+          }
+          
+        }
+      }
+    })
+    console.log(showOrder + "[order pushed to user]")
+    res.json(showOrder)
+
+    //total amount to pay for COD
+    var codTotAmount = 0;
+    console.log(showOrder.order[0].user[0].cart.length + "///length of cart");
+    for (var index = 0; index < showOrder.order[index].user[index].cart.length ; index++) {
+      codTotAmount += showOrder.order[index].user[index].cart[index].foods.price * showOrder.order[index].user[index].cart[index].quan
+      
+    }
+    console.log(codTotAmount);
+
+    // res.render("orderplaced" , {showOrder , codTotAmount})
   }else if(req.body.paymentMode === "ONLINE"){
     res.send("online payment razor pay")
   }
