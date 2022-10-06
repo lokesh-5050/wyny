@@ -212,20 +212,42 @@ exports.decItem = async (req, res, next) => {
 }
 
 exports.orderPage = async(req,res,next) =>{
-  let allCartItems = await userModel.findOne({_id:req.user._id}).populate("cart")
-  var cart = allCartItems.cart
-  res.render("addressPage" , {cart})
+  let allCartItems = await userModel.findOne({_id:req.user._id}).populate("cart");
+  // var cart = allCartItems.cart;
+  res.render("addressPage" );
 }
 
 exports.order = async(req,res,next)=>{
   if(req.body.paymentMode === "COD"){
-    let loggedInUser = await userModel.findOne({_id:req.user._id})
-    const {firstname,lastname,address1,address2,email,phoneNo,paymentMode} = req.body
-    const newOrder = await orderModel.create(req.body)
-    console.log(newOrder);
-    loggedInUser.order.push(newOrder._id)
-    var orderIdPushed = await loggedInUser.save()
-    res.render("orderplaced")
+    let loggedInUser = await userModel.findOne({_id:req.user._id}).populate({
+      path:"order",
+      populate:{
+        path:"user",
+        populate:{
+          path:"cart",
+          populate:{
+            path:"foods"
+          }
+        }
+      }
+    })
+
+    const newOrder = await orderModel.create({
+      firstname:req.body.firstname,
+      lastname:req.body.lastname,
+      address1:req.body.address1,
+      address2:req.body.address2,
+      email:req.body.email,
+      phoneNo:req.body.phoneNo,
+      paymentMode:req.body.paymentMode,
+      user:loggedInUser._id
+    })
+
+     await loggedInUser.order.push(newOrder._id)
+    var pushedSucc = await loggedInUser.save()
+    console.log(pushedSucc + "./././order pushed to user")
+    // res.render("orderplaced")
+    res.json(loggedInUser)
   }else if(req.body.paymentMode === "ONLINE"){
     res.send("online payment razor pay")
   }
