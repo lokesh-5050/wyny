@@ -1,3 +1,4 @@
+//have to add try catch statement in all exported functions
 const passport = require("passport");
 const foodModel = require("../models/food");
 const userModel = require("../models/users");

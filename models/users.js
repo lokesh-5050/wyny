@@ -34,6 +34,8 @@ const userSchema = mongoose.Schema({
       default:"user"
    }
    //this is for role of admin
+   //only admin role will access the admin panel and admin will
+   //have power to make another user admin.
 })
 
 
