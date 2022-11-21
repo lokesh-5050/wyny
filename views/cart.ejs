@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="../assetsHomepage/img/favicon.png" rel="icon">
+    <link href="../assetsHomepage/img/apple-touch-icon.png" rel="apple-touch-icon">
+  
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  
+    <!-- Vendor CSS Files -->
+    <link href="../assetsHomepage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assetsHomepage/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assetsHomepage/vendor/aos/aos.css" rel="stylesheet">
+    <link href="../assetsHomepage/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../assetsHomepage/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  
+    <!-- Template Main CSS File -->
+    <link href="../assetsHomepage/css/main.css" rel="stylesheet">
+  </head>
+  <style>
+    .check-out-items-wrap{
+        overflow-y: auto;
+        /* background-color: palegreen; */
+        height: 60vh;
+    }
+    /* .check-out-items-wrap::-webkit-scrollbar{
+    } */
+    .row-food{
+        min-width: 20vmax;
+        min-height: 10vmax;
+        border: 2px solid #000;
+        display: flex;
+        padding: 0 3vmax;
+        position: relative;
+    }
+    .show-food-img{
+        width: 11vmax;
+        object-fit: contain;
+        min-height: inherit;
+        border: 2px solid salmon;
+    }
+    #fimg{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    .show-food-name{
+        margin-left: 4vmax;
+        padding: 5px 0;
+    }
+    /* .show-food-desc{
+        /* background-color: palegreen; */
+    /* } */ */
+    .increase-decrease-items{
+        border: 2px solid #000;
+    }
+    .increase-decrease-items a{
+        font-size: 50px;
+        margin-left: 1vmax;
+        color: #000;
+    }
+    .show-food-price{
+        position: absolute;
+
+        right:  25vmax;
+        top: 2px;
+    }
+
+    #food-Quan{
+        position: absolute;
+        min-width: 2vmax;
+        min-height: 2vmax;
+        border: 1px solid slateblue;
+        right:  15vmax;
+        padding: 0 1vmax  ;
+    }
+    #tot-price{
+        position: absolute;
+        right: 2%;
+
+    }
+    #check-out{
+        width: 90%;
+        min-height: 10vmax;
+        border: 2px solid rgb(255, 0, 85);
+        position: absolute;
+        bottom: 5%;
+        /* background-color: red; */
+    }
+    
+    #tot_amnt{
+        position: relative;
+        left:64vmax;
+    }
+    .xtra-charges{
+        max-width: 12vmax;
+        min-height: 3vh;
+        /* background-color: skyblue; */
+        position: relative;
+        left: 36vmax;
+    }
+    #check-out h5{
+        position: relative;
+        left: 70vmax;
+        max-width: 17vmax;
+        /* background-color: palevioletred; */
+    }
+    .btn-check{
+        position: relative;
+        left: 75vmax;
+    }
+    
+  </style>
+  <body>
+    <div class="container">
+        
+        <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto me-lg-0">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="../assetsHomepage/img/logo.png" alt=""> -->
+        <h1>Yummy<span>.</span></h1>
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#chefs">Chefs</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+            <ul>
+              <li><a href="#">Drop Down 1</a></li>
+              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                <ul>
+                  <li><a href="#">Deep Drop Down 1</a></li>
+                  <li><a href="#">Deep Drop Down 2</a></li>
+                  <li><a href="#">Deep Drop Down 3</a></li>
+                  <li><a href="#">Deep Drop Down 4</a></li>
+                  <li><a href="#">Deep Drop Down 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Drop Down 2</a></li>
+              <li><a href="#">Drop Down 3</a></li>
+              <li><a href="#">Drop Down 4</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav><!-- .navbar -->
+      <a href="/menu">Check Menu</a>
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+    </div>
+  </header><!-- End Header -->
+    <div class="container check-out-items-wrap position-relative" style="z-index: 9999;top: 8vmax;">
+        <h1>Foods In Your Bag</h1>
+
+
+        <% user.cart.forEach(item => {%>
+         
+           
+            <div style="position: relative;top: 3vmax;" class="row-food">
+                <div class="show-food-img">
+                    <img id="fimg" src="<%= item.foods.fimg %> " alt="foodImg">
+                </div>
+                <div class="show-food-name">
+                    <h4><%= item.foods.foodname %> </h4>
+                    <div class="show-food-desc">
+                        <h5><%= item.foods.descriptionoffood %> </h5>
+                    </div>
+                    <div class="increase-decrease-items">
+                        <a href="/incItem/<%= item._id %>">+</a> &nbsp; <a href="/decItem/<%= item._id %>/<%= item.foods._id %> ">-</a>
+                    </div>
+                </div>
+                <div class="show-food-price">
+                    <h5>₹<%= item.foods.price %> </h5>
+                </div>
+                <div id="food-Quan">
+                    <h5>x <%= item.quan %> </h5>
+                </div>
+                <div id="tot-price" class="show-food-price">
+                    <h5>₹<%= item.foods.price * item.quan %>  </h5>
+                </div>
+            </div>
+          
+        <%}); %> 
+
+
+
+       
+
+      
+        
+        
+    </div>  
+    <div id="check-out" class="container">
+            <div class="container xtra-charges">
+                <h6>Gst - ${}</h6>
+                <h6>Tax - ${}</h6>
+
+                
+                
+            </div>
+            
+                     
+              <h5>Total Amount - ₹<%= tot %></h5>
+                <a href="/orderPage"><button style="left: 75vmax;" class="btn btn-primary position-relative">Checkout</button></a>
+    </div>
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+  </body>
+</html>
