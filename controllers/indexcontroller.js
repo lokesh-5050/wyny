@@ -60,6 +60,7 @@ exports.foodItems = async (req, res, next) => {
 
 //menu page
 exports.menu = async (req, res, next) => {
+  let user = await userModel.findOne({_id:req.user._id})
   const foodItems = await foodModel.find();
   console.log(foodItems + "  showed foodItems");
   // var allIds = ""
@@ -70,7 +71,7 @@ exports.menu = async (req, res, next) => {
   // const splittedIds = allIds.match(/.{1,24}/g)
   // console.log(splittedIds);
 
-  res.render("menu", { foodItems });
+  res.render("menu", { foodItems , user });
 };
 
 // //checkIsInCart
@@ -226,7 +227,25 @@ exports.order = async (req, res, next) => {
   }
 };
 
-//hello
+
+
+//like api 
+exports.likeThis = async(req,res) =>{
+  let postId = req.params.id
+  let user = await userModel.findOne({id:req.user._id})
+
+  if(user.likes.includes(postId)){
+    user.likes.splice(user.likes.indexOf(postId) , 1)
+    await user.save()
+    res.redirect("back")
+  }else{
+    user.likes = [...user.likes , postId]
+    await user.save()
+    res.redirect("back")
+
+  }
+  // res.sendStatus(200).json(user)
+}
 
 exports.createOrderId = () =>{
   try {
@@ -245,4 +264,9 @@ exports.createOrderId = () =>{
   } catch (error) {
     
   }
+}
+
+
+exports.comeBackToHere = (req,res,next) =>{
+  res.redirect("/homepage")
 }

@@ -25,6 +25,8 @@ const {
   orderPage,
   order,
   createOrderId,
+  likeThis,
+  comeBackToHere
 } = require("../controllers/indexcontroller.js");
 
 //clouinary
@@ -120,6 +122,9 @@ router.post("/order", order);
 
 //Api for RazorPay
 router.post("/create/orderId", createOrderId);
-//hello
 
+//like api
+router.get("/likes/:id" , likeThis)
+
+router.get("*", comeBackToHere)
 module.exports = router;

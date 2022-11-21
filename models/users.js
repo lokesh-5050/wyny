@@ -32,7 +32,8 @@ const userSchema = mongoose.Schema({
       type:String,
       enum:['user' , 'admin'],
       default:"user"
-   }
+   },
+   likes:{type:Array}
    //this is for role of admin
    //only admin role will access the admin panel and admin will
    //have power to make another user admin.
