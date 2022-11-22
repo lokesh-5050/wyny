@@ -83,7 +83,7 @@ router.post("/api/payment/verify", (req, res) => {
 router.get("/", loginpage);
 
 /* @api  createUser page. */
-router.post("/create", createUser);
+router.post("/create", createUser); 
 
 /* @api  login form req. */
 router.post("/login", pass_authen);

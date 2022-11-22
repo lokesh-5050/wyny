@@ -4,31 +4,101 @@ const foodModel = require("../models/food");
 const userModel = require("../models/users");
 const cartModel = require("../models/cart");
 const orderModel = require("../models/order");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 exports.loginpage = (req, res, next) => {
   res.render("loginpage");
 };
 
+// exports.createUser = async (req, res, next) => {
+//   const newUser = new userModel({
+//     username: req.body.username,
+//     email: req.body.email,
+//     phoneNo: req.body.phoneNo,
+//     state: req.body.state,
+//     city: req.body.city,
+//     pincode: req.body.pincode,
+//   });
+//   userModel.register(newUser, req.body.password).then(function () {
+//     passport.authenticate("local")(req, res, function () {
+//       res.redirect("/");
+//     });
+//   });
+// };
+
+// (exports.pass_authen = passport.authenticate("local", {
+//   successRedirect: "/homepage",
+//   failureRedirect: "/",
+// })),
+//   function (req, res, next) {};
+
+//signup with jwt
+//check if user exist
+//hash tht password
+//user creation
+//token creation
+
 exports.createUser = async (req, res, next) => {
-  const newUser = new userModel({
-    username: req.body.username,
-    email: req.body.email,
-    phoneNo: req.body.phoneNo,
-    state: req.body.state,
-    city: req.body.city,
-    pincode: req.body.pincode,
-  });
-  userModel.register(newUser, req.body.password).then(function () {
-    passport.authenticate("local")(req, res, function () {
-      res.redirect("/");
+  const { username, email, phoneNo, state, city, pincode, password } = req.body;
+  try {
+    const exsistingUser = await userModel.findOne({ email: email });
+
+    if (exsistingUser)
+      return res
+        .sendStatus(400)
+        .json({ message: "User With this name/email already exist!" });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const result = await userModel.create({
+      email: email,
+      username: username,
+      password: password,
+      phoneNo: phoneNo,
+      state: state,
+      city: city,
+      pincode: pincode,
     });
-  });
+
+    const token = jwt.sign(
+      { email: result.email, id: result._id },
+      process.env.JWT_SECRET
+    );
+    res.statusCode(201).json({ user: result, token: token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong!" });
+  }
 };
 
-(exports.pass_authen = passport.authenticate("local", {
-  successRedirect: "/homepage",
-  failureRedirect: "/",
-})),
-  function (req, res, next) {};
+exports.pass_authen = async (req, res, next) => {
+  const { username, email, password } = req.body;
+  try {
+    const exsistingUser = await userModel.findOne({ email: email });
+
+    if (!exsistingUser) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    const matchPassword = await bcrypt.compare(
+      password,
+      exsistingUser.password
+    );
+
+    if (!matchPassword) {
+      return res.status(400).json({ message: "Invalid Credentials!" });
+    }
+
+    const token = jwt.sign(
+      { email: exsistingUser.email, id: exsistingUser._id },
+      process.env.JWT_SECRET
+    );
+    res.status(201).json({ user: exsistingUser, token: token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+};
 
 exports.homepage = async (req, res, next) => {
   const user = req.user.username;
@@ -60,7 +130,7 @@ exports.foodItems = async (req, res, next) => {
 
 //menu page
 exports.menu = async (req, res, next) => {
-  let user = await userModel.findOne({_id:req.user._id})
+  let user = await userModel.findOne({ _id: req.user._id });
   const foodItems = await foodModel.find();
   console.log(foodItems + "  showed foodItems");
   // var allIds = ""
@@ -71,29 +141,8 @@ exports.menu = async (req, res, next) => {
   // const splittedIds = allIds.match(/.{1,24}/g)
   // console.log(splittedIds);
 
-  res.render("menu", { foodItems , user });
+  res.render("menu", { foodItems, user });
 };
-
-// //checkIsInCart
-// exports.checkIsInCart = async (req, res, next) => {
-//   let loggedInUser = await userModel.findById(req.user._id);
-//   console.log(loggedInUser + "[][loggedInUser");
-//   console.log(req.params.foodId1);
-
-//   if (
-//     loggedInUser.foodId.includes(req.params.foodId1) ||
-//     loggedInUser.foodId.includes(req.params.foodId2) ||
-//     loggedInUser.foodId.includes(req.params.foodId3) ||
-//     loggedInUser.foodId.includes(req.params.foodId4) ||
-//     loggedInUser.foodId.includes(req.params.foodId5) ||
-//     loggedInUser.foodId.includes(req.params.foodId6) ||
-//     loggedInUser.foodId.includes(req.params.foodId7)
-//   ) {
-//     res.json("includes");
-//   } else {
-//     res.json("notincludes");
-//   }
-// };
 
 exports.cart = async (req, res, next) => {
   try {
@@ -221,52 +270,48 @@ exports.order = async (req, res, next) => {
     }
     console.log(codTotAmount);
 
-    res.render("orderplaced" , {showOrder , codTotAmount})
+    res.render("orderplaced", { showOrder, codTotAmount });
   } else if (req.body.paymentMode === "ONLINE") {
     res.send("online payment razor pay");
   }
 };
 
+//like api
+exports.likeThis = async (req, res) => {
+  let postId = req.params.id;
+  let user = await userModel.findOne({ id: req.user._id });
 
-
-//like api 
-exports.likeThis = async(req,res) =>{
-  let postId = req.params.id
-  let user = await userModel.findOne({id:req.user._id})
-
-  if(user.likes.includes(postId)){
-    user.likes.splice(user.likes.indexOf(postId) , 1)
-    await user.save()
-    res.redirect("back")
-  }else{
-    user.likes = [...user.likes , postId]
-    await user.save()
-    res.redirect("back")
-
+  if (user.likes.includes(postId)) {
+    user.likes.splice(user.likes.indexOf(postId), 1);
+    await user.save();
+    res.redirect("back");
+  } else {
+    user.likes = [...user.likes, postId];
+    await user.save();
+    res.redirect("back");
   }
   // res.sendStatus(200).json(user)
-}
+};
 
-exports.createOrderId = () =>{
+exports.createOrderId = () => {
   try {
-    const Razorpay = require('razorpay');
-    var instance = new Razorpay({ key_id: process.env.RAZORPAY_KEY, key_secret: process.env.RAZORPAY_SECRET })
-    
+    const Razorpay = require("razorpay");
+    var instance = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY,
+      key_secret: process.env.RAZORPAY_SECRET,
+    });
+
     var options = {
-      amount: 50000,  // amount in the smallest currency unit
+      amount: 50000, // amount in the smallest currency unit
       currency: "INR",
-      receipt: "order_rcptid_11"
+      receipt: "order_rcptid_11",
     };
-    instance.orders.create(options, function(err, order) {
+    instance.orders.create(options, function (err, order) {
       console.log(order);
     });
-    
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
-
-exports.comeBackToHere = (req,res,next) =>{
-  res.redirect("/homepage")
-}
+exports.comeBackToHere = (req, res, next) => {
+  res.redirect("/homepage");
+};
